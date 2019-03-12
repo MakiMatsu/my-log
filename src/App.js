@@ -13,7 +13,8 @@ class App extends Component {
 
   // ToDoListをstateに定義、初期値はlocalStorageから取得または []
   state = {
-    todoList: JSON.parse(localStorage.getItem("todoList")) || []
+    todoList: JSON.parse(localStorage.getItem("todoList")) || [],
+    removeTodo: this.removeTodo
   };
 
   // todoList itemの追加
@@ -21,7 +22,8 @@ class App extends Component {
     // todoList stateに追加
     this.setState(
       {
-        todoList: this.state.todoList.concat(item)
+        todoList: this.state.todoList.concat(item),
+        removeTodo: this.removeTodo
       },
       () => {
         // localStorageにtodoList stateを保存
@@ -33,10 +35,10 @@ class App extends Component {
   };
 
   // todoListからitemを削除
-  removeTodo = (item, callBack) => {
+  removeTodo = (i, callBack) => {
     this.setState(
       {
-        todoList: this.state.todoList.filter(x => x !== item)
+        todoList: this.state.todoList.splice(i, 1)
       },
       () => {
         // localStorageにtodoList stateを保存
@@ -94,7 +96,7 @@ class App extends Component {
         </form>
         <div>
           {/* todoList配列の要素数分ToDoListItemコンポーネントを展開 */}
-          {this.state.todoList.map(todo => (
+          {this.state.todoList.map((todo, i) => (
             <ToDoListItem
               key={todo.title}
               title={todo.title}
@@ -102,7 +104,8 @@ class App extends Component {
               time={todo.time}
               location={todo.location}
               // クリックされたItemをtodoList stateから削除
-              onClick={() => this.removeTodo(todo)}
+              // onClick={() => this.removeTodo(i)}
+              // onClick={() => this.removeTodo(todo)}
             />
           ))}
         </div>

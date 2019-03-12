@@ -14,7 +14,14 @@ class ToDoListItem extends Component {
   //   }
 
   render() {
-    const { title, description, time, location, ...props } = this.props;
+    const {
+      title,
+      description,
+      time,
+      location,
+      removeTodo,
+      ...props
+    } = this.props;
     return (
       <div className="ToDoListItem" {...props}>
         <div className="ToDoListItem-title">{title}</div>
@@ -22,8 +29,7 @@ class ToDoListItem extends Component {
         <div className="ToDoListItem-time">{time}</div>
         <div className="ToDoListItem-location">{location}</div>
         <div className="ToDoListItem-delete">
-          {/* <button onClick={() => this.deleteTodo()}>削除</button> */}
-          <button>削除</button>
+          <button onClick={this.props.removeTodo}>削除</button>
         </div>
       </div>
     );
