@@ -3,14 +3,6 @@ import "./App.css";
 import ToDoListItem from "./ToDoListItem.js";
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     delete: false
-  //   };
-  // }
-
   // ToDoListをstateに定義、初期値はlocalStorageから取得または []
   state = {
     todoList: JSON.parse(localStorage.getItem("todoList")) || [],
@@ -22,8 +14,7 @@ class App extends Component {
     // todoList stateに追加
     this.setState(
       {
-        todoList: this.state.todoList.concat(item),
-        removeTodo: this.removeTodo
+        todoList: this.state.todoList.concat(item)
       },
       () => {
         // localStorageにtodoList stateを保存
@@ -35,24 +26,33 @@ class App extends Component {
   };
 
   // todoListからitemを削除
-  removeTodo = (i, callBack) => {
-    console.log(" i = " & i);
-    this.setState(
-      {
+  removeTodo = i => {
+    if (i !== undefined && i > 0) {
+      this.setState({
         todoList: this.state.todoList.splice(i, 1)
-      },
-      () => {
-        // localStorageにtodoList stateを保存
-        localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
-        // callBack関数が引数に渡されていた場合に実行
-        callBack && callBack();
-      }
-    );
+      });
+    }
   };
+  // removeTodo = (i, callBack) => {
+  //   if (i !== undefined && i > 0) {
+  //     this.setState(
+  //       {
+  //         todoList: this.state.todoList.splice(i, 1)
+  //       },
+  //       () => {
+  //         // localStorageにtodoList stateを保存
+  //         localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
+  //         // callBack関数が引数に渡されていた場合に実行
+  //         callBack && callBack();
+  //       }
+  //     );
+  //   }
+  // };
 
   render() {
     return (
       <div className="App">
+        {/* formの作成 */}
         <form
           className="App-form"
           onSubmit={e => {
@@ -68,8 +68,11 @@ class App extends Component {
             // idがlocationのElementを取得
             const locationElement = e.target.elements["location"];
 
+            console.log(this.state.todoList);
             this.addTodo(
               {
+                // key: this.state.todoList.length + 1,
+                id: this.state.todoList.length + 1,
                 title: titleElement.value,
                 description: descriptionElement.value,
                 time: timeElement.value,
@@ -95,16 +98,18 @@ class App extends Component {
             <button type="submit">登録</button>
           </div>
         </form>
+
+        {/* todoコンポーネントの作成 */}
         <div>
           {/* todoList配列の要素数分ToDoListItemコンポーネントを展開 */}
-          {this.state.todoList.map((todo, i) => (
+          {this.state.todoList.map(todo => (
             <ToDoListItem
-              key={i}
+              key={todo.id}
               title={todo.title}
               description={todo.description}
               time={todo.time}
               location={todo.location}
-              id={i}
+              id={todo.id}
               // クリックされたItemをtodoList stateから削除
               removeTodo={this.removeTodo}
             />
