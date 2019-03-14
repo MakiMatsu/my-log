@@ -19,9 +19,13 @@ class ToDoListItem extends Component {
       description,
       time,
       location,
+      id,
       removeTodo,
       ...props
     } = this.props;
+    console.log(
+      title & "," & description & "," & time & "," & location & "," & id
+    );
     return (
       <div className="ToDoListItem" {...props}>
         <div className="ToDoListItem-title">{title}</div>

@@ -36,6 +36,7 @@ class App extends Component {
 
   // todoListからitemを削除
   removeTodo = (i, callBack) => {
+    console.log(" i = " & i);
     this.setState(
       {
         todoList: this.state.todoList.splice(i, 1)
@@ -98,14 +99,14 @@ class App extends Component {
           {/* todoList配列の要素数分ToDoListItemコンポーネントを展開 */}
           {this.state.todoList.map((todo, i) => (
             <ToDoListItem
-              key={todo.title}
+              key={i}
               title={todo.title}
               description={todo.description}
               time={todo.time}
               location={todo.location}
+              id={i}
               // クリックされたItemをtodoList stateから削除
-              // onClick={() => this.removeTodo(i)}
-              // onClick={() => this.removeTodo(todo)}
+              removeTodo={this.removeTodo}
             />
           ))}
         </div>
