@@ -30,7 +30,7 @@ class ToDoListItem extends Component {
         <div className="ToDoListItem-time">{time}</div>
         <div className="ToDoListItem-location">{location}</div>
         <div className="ToDoListItem-delete">
-          <button onClick={this.props.removeTodo}>削除</button>
+          <button onClick={() => removeTodo(id)}>削除</button>
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import ToDoListItem from "./ToDoListItem.js";
+import moment from "moment";
 
 class App extends Component {
   // ToDoListをstateに定義、初期値はlocalStorageから取得または []
@@ -23,31 +24,40 @@ class App extends Component {
         callBack && callBack();
       }
     );
+    console.log(this.state.todoList);
   };
 
   // todoListからitemを削除
-  removeTodo = i => {
-    if (i !== undefined && i > 0) {
-      this.setState({
-        todoList: this.state.todoList.splice(i, 1)
-      });
-    }
-  };
-  // removeTodo = (i, callBack) => {
+  // removeTodo = i => {
   //   if (i !== undefined && i > 0) {
-  //     this.setState(
-  //       {
-  //         todoList: this.state.todoList.splice(i, 1)
-  //       },
-  //       () => {
-  //         // localStorageにtodoList stateを保存
-  //         localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
-  //         // callBack関数が引数に渡されていた場合に実行
-  //         callBack && callBack();
-  //       }
-  //     );
+  //     this.setState({
+  //       todoList: this.state.todoList.splice(i, 1)
+  //     });
   //   }
   // };
+  removeTodo = (id, callBack) => {
+    // if (id !== undefined && id > 0) {
+    console.log("消したでー");
+    // var delIndex = 0;
+    // this.state.todoList.map((i, todo) => {
+    //   if (todo.id === id) {
+    //     delIndex = i;
+    //   }
+    // });
+
+    this.setState(
+      {
+        // todoList: this.state.todoList.splice(id, 1)
+        todoList: this.state.todoList.splice(id, 1)
+      },
+      () => {
+        // localStorageにtodoList stateを保存
+        localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
+        // callBack関数が引数に渡されていた場合に実行
+        callBack && callBack();
+      }
+    );
+  };
 
   render() {
     return (
@@ -68,7 +78,6 @@ class App extends Component {
             // idがlocationのElementを取得
             const locationElement = e.target.elements["location"];
 
-            console.log(this.state.todoList);
             this.addTodo(
               {
                 // key: this.state.todoList.length + 1,
@@ -101,10 +110,9 @@ class App extends Component {
 
         {/* todoコンポーネントの作成 */}
         <div>
-          {/* todoList配列の要素数分ToDoListItemコンポーネントを展開 */}
           {this.state.todoList.map(todo => (
             <ToDoListItem
-              key={todo.id}
+              key={moment().format("YYYYMMDDHHmmssddd")}
               title={todo.title}
               description={todo.description}
               time={todo.time}
