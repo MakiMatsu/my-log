@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import ToDoListItem from "./ToDoListItem.js";
-import moment from "moment";
+// import moment from "moment";
 
 class App extends Component {
   // ToDoListをstateに定義、初期値はlocalStorageから取得または []
@@ -81,7 +81,7 @@ class App extends Component {
             this.addTodo(
               {
                 // key: this.state.todoList.length + 1,
-                id: this.state.todoList.length + 1,
+                // id: this.state.todoList.length + 1,
                 title: titleElement.value,
                 description: descriptionElement.value,
                 time: timeElement.value,
@@ -107,17 +107,16 @@ class App extends Component {
             <button type="submit">登録</button>
           </div>
         </form>
-
         {/* todoコンポーネントの作成 */}
         <div>
-          {this.state.todoList.map(todo => (
+          {this.state.todoList.map((todo, i) => (
             <ToDoListItem
-              key={moment().format("YYYYMMDDHHmmssddd")}
+              key={i}
               title={todo.title}
               description={todo.description}
               time={todo.time}
               location={todo.location}
-              id={todo.id}
+              id={i}
               // クリックされたItemをtodoList stateから削除
               removeTodo={this.removeTodo}
             />
