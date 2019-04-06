@@ -24,42 +24,34 @@ class App extends Component {
         callBack && callBack();
       }
     );
-    console.log(this.state.todoList);
   };
 
   // todoListからitemを削除
-  // removeTodo = i => {
-  //   if (i !== undefined && i > 0) {
-  //     this.setState({
-  //       todoList: this.state.todoList.splice(i, 1)
-  //     });
-  //   }
-  // };
   removeTodo = (id, callBack) => {
-    // if (id !== undefined && id > 0) {
-    console.log("消したでー");
-    // var delIndex = 0;
-    // this.state.todoList.map((i, todo) => {
-    //   if (todo.id === id) {
-    //     delIndex = i;
-    //   }
-    // });
-
-    this.setState(
-      {
-        // todoList: this.state.todoList.splice(id, 1)
-        todoList: this.state.todoList.splice(id, 1)
-      },
-      () => {
-        // localStorageにtodoList stateを保存
-        localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
-        // callBack関数が引数に渡されていた場合に実行
-        callBack && callBack();
+    this.state.todoList.map((todo, i) => {
+      if (todo.id === id) {
+        this.state.todoList.splice(i, 1);
+        this.setState(
+          {
+            todoList: this.state.todoList
+          },
+          () => {
+            // localStorageにtodoList stateを保存
+            localStorage.setItem(
+              "todoList",
+              JSON.stringify(this.state.todoList)
+            );
+            // callBack関数が引数に渡されていた場合に実行
+            callBack && callBack();
+          }
+        );
       }
-    );
+    });
   };
 
   render() {
+    const uuidv1 = require("uuid/v1");
+    const uuidkey = uuidv1();
     return (
       <div className="App">
         {/* formの作成 */}
@@ -80,8 +72,7 @@ class App extends Component {
 
             this.addTodo(
               {
-                // key: this.state.todoList.length + 1,
-                // id: this.state.todoList.length + 1,
+                id: uuidkey,
                 title: titleElement.value,
                 description: descriptionElement.value,
                 time: timeElement.value,
@@ -111,12 +102,12 @@ class App extends Component {
         <div>
           {this.state.todoList.map((todo, i) => (
             <ToDoListItem
-              key={i}
+              key={todo.id}
               title={todo.title}
               description={todo.description}
               time={todo.time}
               location={todo.location}
-              id={i}
+              id={todo.id}
               // クリックされたItemをtodoList stateから削除
               removeTodo={this.removeTodo}
             />
