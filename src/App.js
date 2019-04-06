@@ -89,9 +89,10 @@ class App extends Component {
           }}
         >
           <div>
+            {/* <label>To Do List</label> */}
             <input id="title" placeholder="title" />
             <textarea id="description" placeholder="description" />
-            <textarea id="time" placeholder="time" />
+            <input type="date" id="time" placeholder="time" />
             <textarea id="location" placeholder="location" />
           </div>
           <div>
@@ -99,7 +100,7 @@ class App extends Component {
           </div>
         </form>
         {/* todoコンポーネントの作成 */}
-        <div>
+        <div className="App-data">
           {this.state.todoList.map((todo, i) => (
             <ToDoListItem
               key={todo.id}
